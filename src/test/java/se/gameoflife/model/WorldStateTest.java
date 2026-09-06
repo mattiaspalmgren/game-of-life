@@ -1,13 +1,12 @@
 package se.gameoflife.model;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class WorldStateTest {
 
@@ -21,7 +20,7 @@ public class WorldStateTest {
             new Point(1,2),
             new Point(2,2)
     );
-    WorldState worldState = new WorldState(4, points);
+    WorldState worldState = WorldState.initial(4, points);
 
     // WHEN
     WorldState nextState = worldState.getNext(rules);
@@ -29,7 +28,7 @@ public class WorldStateTest {
     // THEN
     List<Cell> expectedCells = points.stream()
         .map(point -> new Cell(point, true))
-        .collect(Collectors.toList());
+        .toList();
 
     assertEquals(expectedCells.size(), nextState.getAliveCells().size());
     assertTrue(nextState.getAliveCells().containsAll(expectedCells)) ;
@@ -44,7 +43,7 @@ public class WorldStateTest {
         new Point(2,2),
         new Point(3,2)
     );
-    WorldState worldState = new WorldState(5, points);
+    WorldState worldState = WorldState.initial(5, points);
 
     // WHEN
     WorldState nextState = worldState.getNext(rules);
@@ -54,7 +53,7 @@ public class WorldStateTest {
         new Point(2,1),
         new Point(2,2),
         new Point(2,3)
-    ).map(point -> new Cell(point, true)).collect(Collectors.toList());
+    ).map(point -> new Cell(point, true)).toList();
 
     assertEquals(expectedCells.size(), nextState.getAliveCells().size());
     assertTrue(nextState.getAliveCells().containsAll(expectedCells)) ;

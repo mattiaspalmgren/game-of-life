@@ -19,7 +19,7 @@ class GameOfLife {
   private WorldState state;
 
   GameOfLife(int size, List<Point> aliveCells) {
-    state = new WorldState(size, aliveCells);
+    state = WorldState.initial(size, aliveCells);
   }
 
   void run() {

@@ -2,7 +2,6 @@ package se.gameoflife.util;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import se.gameoflife.model.Point;
 
@@ -23,6 +22,6 @@ public class Grid {
   }
 
   private static List<Integer> getRange(int end) {
-    return IntStream.range(0, end).boxed().collect(Collectors.toList());
+    return IntStream.range(0, end).boxed().toList();
   }
 }

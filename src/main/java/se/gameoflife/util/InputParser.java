@@ -1,7 +1,6 @@
 package se.gameoflife.util;
 
 import java.util.List;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import se.gameoflife.model.Point;
 
@@ -23,7 +22,7 @@ public class InputParser {
     return Stream.of(input)
         .skip(1) // Skip size
         .map(InputParser::parsePoint)
-        .collect(Collectors.toList());
+        .toList();
   }
 
   private static Point parsePoint(String input) {
