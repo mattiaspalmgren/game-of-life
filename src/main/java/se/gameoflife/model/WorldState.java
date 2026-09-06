@@ -1,6 +1,8 @@
 package se.gameoflife.model;
 
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 import se.gameoflife.util.Grid;
 
 public record WorldState(int size, List<Cell> cells) {
@@ -16,17 +18,20 @@ public record WorldState(int size, List<Cell> cells) {
   }
 
   public WorldState getNext(Rules rules) {
+    Set<Point> alivePoints = cells.stream()
+        .filter(Cell::state)
+        .map(Cell::point)
+        .collect(Collectors.toSet());
     List<Point> aliveCells = cells.stream()
-        .filter(cell -> rules.shouldLive(cell, getNumberOfAliveNeighbours(cell)))
+        .filter(cell -> rules.shouldLive(cell, getNumberOfAliveNeighbours(cell, alivePoints)))
         .map(Cell::point)
         .toList();
     return WorldState.initial(size, aliveCells);
   }
 
-  private long getNumberOfAliveNeighbours(Cell cell) {
-    return cells.stream()
-        .filter(currentCell -> Point.isNeighbour(currentCell.point(), cell.point()))
-        .filter(Cell::state)
+  private static long getNumberOfAliveNeighbours(Cell cell, Set<Point> alivePoints) {
+    return cell.point().neighbours().stream()
+        .filter(alivePoints::contains)
         .count();
   }
 
