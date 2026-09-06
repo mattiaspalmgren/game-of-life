@@ -1,6 +1,7 @@
 package se.gameoflife.util;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.util.List;
 import org.junit.jupiter.api.Test;
@@ -32,5 +33,41 @@ public class InputParserTest {
     assertEquals(2, points.size());
     assertEquals(new Point(1, 0), points.get(0));
     assertEquals(new Point(2, 2), points.get(1));
+  }
+
+  @Test
+  public void parseSizeMissing() {
+    // GIVEN
+    String[] input = {};
+
+    // THEN
+    assertThrows(IllegalArgumentException.class, () -> InputParser.parseSize(input));
+  }
+
+  @Test
+  public void parseSizeNotANumber() {
+    // GIVEN
+    String[] input = {"abc"};
+
+    // THEN
+    assertThrows(IllegalArgumentException.class, () -> InputParser.parseSize(input));
+  }
+
+  @Test
+  public void parsePointsMissingCoordinate() {
+    // GIVEN
+    String[] input = {"5", "1"};
+
+    // THEN
+    assertThrows(IllegalArgumentException.class, () -> InputParser.parsePoints(input));
+  }
+
+  @Test
+  public void parsePointsNotANumber() {
+    // GIVEN
+    String[] input = {"5", "a,b"};
+
+    // THEN
+    assertThrows(IllegalArgumentException.class, () -> InputParser.parsePoints(input));
   }
 }

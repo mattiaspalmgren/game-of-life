@@ -15,7 +15,16 @@ public class InputParser {
   }
 
   public static int parseSize(String[] input) {
-    return Integer.parseInt(input[SIZE_INDEX]);
+    if (input.length == 0) {
+      throw new IllegalArgumentException("Missing world size argument");
+    }
+    String sizeInput = input[SIZE_INDEX];
+    try {
+      return Integer.parseInt(sizeInput);
+    } catch (NumberFormatException e) {
+      throw new IllegalArgumentException(
+          "Invalid world size '" + sizeInput + "', expected a whole number");
+    }
   }
 
   public static List<Point> parsePoints(String[] input) {
@@ -27,8 +36,17 @@ public class InputParser {
 
   private static Point parsePoint(String input) {
     String[] inputArr = input.split(POINT_SEPARATOR);
-    int x = Integer.parseInt(inputArr[X_INDEX]);
-    int y = Integer.parseInt(inputArr[Y_INDEX]);
-    return new Point(x, y);
+    if (inputArr.length != 2) {
+      throw new IllegalArgumentException(
+          "Invalid point '" + input + "', expected format 'x,y'");
+    }
+    try {
+      int x = Integer.parseInt(inputArr[X_INDEX]);
+      int y = Integer.parseInt(inputArr[Y_INDEX]);
+      return new Point(x, y);
+    } catch (NumberFormatException e) {
+      throw new IllegalArgumentException(
+          "Invalid point '" + input + "', expected format 'x,y' with whole numbers");
+    }
   }
 }
