@@ -4,21 +4,21 @@ import java.util.List;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
-import se.gameoflife.model.DefaultRule;
 import se.gameoflife.model.Point;
 import se.gameoflife.model.Rules;
 import se.gameoflife.model.WorldState;
 import se.gameoflife.render.StateRender;
-import se.gameoflife.render.SystemOutStateRender;
 
 class GameOfLife {
-  private static final ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
+  private final ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
   private static final int TICK = 1;
-  private static final StateRender renderer = new SystemOutStateRender();
-  private static final Rules rules = new DefaultRule();
+  private final StateRender renderer;
+  private final Rules rules;
   private WorldState state;
 
-  GameOfLife(int size, List<Point> aliveCells) {
+  GameOfLife(int size, List<Point> aliveCells, StateRender renderer, Rules rules) {
+    this.renderer = renderer;
+    this.rules = rules;
     state = WorldState.initial(size, aliveCells);
   }
 
